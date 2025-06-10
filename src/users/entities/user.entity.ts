@@ -1,4 +1,5 @@
-import { Column, DeleteDateColumn, Entity } from "typeorm";
+import { Task } from "src/tasks/entities/task.entity";
+import { Column, DeleteDateColumn, Entity, OneToMany } from "typeorm";
 
 @Entity()
 export class User {
@@ -19,4 +20,7 @@ export class User {
 
   @Column({ type: 'timestamp', nullable: true })
   lastLogin: Date;
+
+  @OneToMany(() => Task, task => task.user)
+  tasks: Task[];
 }
