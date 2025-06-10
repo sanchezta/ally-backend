@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Mexico",
+    "code": "MX",
+    "capital": "Mexico City"
+  },
+  {
+    "name": "Spain",
+    "code": "ES",
+    "capital": "Madrid"
+  },
+  {
+    "name": "Japan",
+    "code": "JP",
+    "capital": "Tokyo"
+  }
+]
