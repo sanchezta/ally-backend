@@ -18,7 +18,12 @@ export class UsersController {
   }
 
   @Get()
-  async findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
-    return this.usersService.findAll(page, limit);
+  findAll(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('name') name?: string,
+    @Query('email') email?: string,
+  ) {
+    return this.usersService.findAll(page, limit, name, email);
   }
 }

@@ -1,13 +1,22 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { envs } from './config';
 import { Logger } from '@nestjs/common';
+import { AppModule } from './app.module';
+import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+
+import { envs } from './config';
 
 async function bootstrap() {
   const logger = new Logger('Main');
   const app = await NestFactory.create(AppModule);
-  await app.listen(envs.port);
+
+  app.setGlobalPrefix("api/v1");
+
+  app.enableCors({
+    origin: envs.corsOrigin,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -16,6 +25,10 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  await app.listen(envs.port);
   logger.log(`Application is running on port ${envs.port}`);
+  logger.log(`Accepting requests from origin: ${envs.corsOrigin}`)
 }
+
 bootstrap();

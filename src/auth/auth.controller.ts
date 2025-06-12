@@ -1,10 +1,8 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { Request, UseGuards } from "@nestjs/common";
-
-
+import { Response } from 'express';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
@@ -18,5 +16,13 @@ export class AuthController {
   @Post('login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+
+  @Post('logout')
+  logout(@Res() res: Response) {
+    res.clearCookie('jwt');
+
+    return res.status(200).json({ message: 'Logout successful' });
   }
 }
