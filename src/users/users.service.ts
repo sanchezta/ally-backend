@@ -19,11 +19,25 @@ export class UsersService {
     return await this.usersRepository.findOneBy({ email });
   }
 
-  async findAll(page: number = 1, limit: number = 5) {
-    const [users, total] = await this.usersRepository.findAndCount({
-      take: limit,
-      skip: (page - 1) * limit,
-    });
+  async findAll(
+    page: number = 1,
+    limit: number = 5,
+    name?: string,
+    email?: string,
+  ) {
+    const query = this.usersRepository.createQueryBuilder('user')
+      .take(limit)
+      .skip((page - 1) * limit);
+
+    if (name) {
+      query.andWhere('LOWER(user.name) LIKE LOWER(:name)', { name: `%${name}%` });
+    }
+
+    if (email) {
+      query.andWhere('LOWER(user.email) LIKE LOWER(:email)', { email: `%${email}%` });
+    }
+
+    const [users, total] = await query.getManyAndCount();
 
     return {
       data: users,

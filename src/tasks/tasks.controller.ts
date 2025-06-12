@@ -6,8 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
-  Request,
   HttpCode,
   HttpStatus,
   ParseIntPipe,
@@ -15,27 +13,24 @@ import {
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { AuthGuard } from 'src/auth/guard/auth.guard';
 
-
-@UseGuards(AuthGuard)
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) { }
 
   @Post()
-  create(@Request() req, @Body() dto: CreateTaskDto) {
-    return this.tasksService.create(req.user, dto);
+  create(@Body() dto: CreateTaskDto) {
+    return this.tasksService.create(dto);
   }
 
   @Get()
-  findAll(@Request() req) {
-    return this.tasksService.findAllByUser(req.user.id);
+  findAll() {
+    return this.tasksService.findAll();
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateTaskDto) {
-    return this.tasksService.update(+id, dto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateTaskDto) {
+    return this.tasksService.update(id, dto);
   }
 
   @Delete(':id')

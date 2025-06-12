@@ -1,9 +1,9 @@
 import { Controller, Get, Param } from "@nestjs/common";
-import { CountriesService } from "./countries.service";
+import { CountriesService } from "./weather.service";
 import { WeatherService } from "./external/weather.service";
 import { TimezoneService } from "./external/timezone.service";
 
-@Controller('countries')
+@Controller('weather')
 export class CountriesController {
   constructor(
     private countriesService: CountriesService,

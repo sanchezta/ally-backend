@@ -10,7 +10,7 @@ import { UsersService } from 'src/users/users.service';
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
   ) { }
 
   async register({ password, email, name }: RegisterDto) {
@@ -22,16 +22,22 @@ export class AuthService {
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
-    await this.usersService.create({
+    const newUser = await this.usersService.create({
       name,
       email,
       password: hashedPassword,
     });
 
+    const payload = { email: newUser.email, sub: newUser.id };
+    const token = this.jwtService.sign(payload);
+
     return {
       message: "User created successfully",
+      token,
+      email: newUser.email,
     };
   }
+
 
   async login({ email, password }: LoginDto) {
     const user = await this.usersService.findOneByEmail(email);
@@ -46,10 +52,8 @@ export class AuthService {
       throw new UnauthorizedException("Invalid password");
     }
 
-    // Actualiza el último inicio de sesión
     await this.usersService.updateLastLogin(email);
 
-    // Genera un token JWT
     const payload = { email: user.email, sub: user.id };
     const token = this.jwtService.sign(payload);
 
