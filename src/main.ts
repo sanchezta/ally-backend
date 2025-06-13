@@ -26,7 +26,7 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(envs.port);
+  await app.listen(envs.port || 3001);
   logger.log(`Application is running on port ${envs.port}`);
   logger.log(`Accepting requests from origin: ${envs.corsOrigin}`)
 }
