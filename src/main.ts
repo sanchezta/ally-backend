@@ -12,7 +12,7 @@ async function bootstrap() {
   app.setGlobalPrefix("api/v1");
 
   app.enableCors({
-    origin: envs.corsOrigin,
+    origin: 'http://ally-frontend.netlify.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true
