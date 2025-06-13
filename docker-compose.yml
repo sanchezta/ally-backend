@@ -30,4 +30,4 @@ services:
       DATABASE_USER: ally_backend
       DATABASE_PASSWORD: root
       DATABASE_NAME: db_ally
-      CORS_ORIGIN: http://localhost:4200
+      CORS_ORIGIN: http://ally-frontend.netlify.app
