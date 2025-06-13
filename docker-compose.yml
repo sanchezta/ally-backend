@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   mysql:
     image: mysql:8.0
@@ -12,3 +14,19 @@ services:
       - ./mysql:/var/lib/mysql
     ports:
       - '3307:3306'
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ally_backend
+    ports:
+      - '3001:3001'
+    depends_on:
+      - mysql
+    environment:
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_USER: ally_backend
+      DATABASE_PASSWORD: root
+      DATABASE_NAME: db_ally
