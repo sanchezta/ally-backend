@@ -12,15 +12,14 @@ import { CountriesModule } from './weather/weather.module';
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
-        host: envs.db.host,
-        port: envs.db.port,
-        username: envs.db.username,
-        password: envs.db.password,
-        database: envs.db.database,
+        url: envs.db.databaseUrls,
         autoLoadEntities: true,
-        synchronize: process.env.NODE_ENV !== 'production',
+        synchronize: true,
+        ssl: true,
+        useUnifiedTopology: true
       }),
     }),
+
     UsersModule,
     AuthModule,
     CountriesModule,
