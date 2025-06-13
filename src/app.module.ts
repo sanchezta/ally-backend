@@ -11,7 +11,7 @@ import { CountriesModule } from './weather/weather.module';
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
-        type: 'mysql',
+        type: 'postgres',
         host: envs.db.host,
         port: envs.db.port,
         username: envs.db.username,
